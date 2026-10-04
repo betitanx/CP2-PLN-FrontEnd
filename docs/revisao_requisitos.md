@@ -1,6 +1,6 @@
 # Comparação entre o enunciado e a implementação
 
-Revisão em 04/10/2026 do documento CP Integrado FrontEnd PLN Bot como Serviço. Foram inspecionados código, configuração, testes e entregáveis. **O projeto implementa a estrutura exigida, mas ainda não reúne todas as evidências necessárias para entregar o checkpoint.** A avaliação real T1–T8 mais dez conversas foi concluída com Nemotron. O repositório privado está em betitanx/CP-NLP-e-front; o vídeo continua pendente.
+Revisão em 04/10/2026 do documento CP Integrado FrontEnd PLN Bot como Serviço. Foram inspecionados código, configuração, testes e entregáveis. **O projeto implementa a estrutura exigida, mas ainda não reúne todas as evidências necessárias para entregar o checkpoint.** A avaliação real T1–T8 mais dez conversas foi concluída com Nemotron. O repositório privado está em betitanx/CP2-PLN-FrontEnd; o vídeo continua pendente.
 
 ## Correções feitas nesta revisão
 
@@ -43,7 +43,7 @@ O denominador das métricas considera sessões com pelo menos um turno concluíd
 
 | Entregável | Situação |
 |---|---|
-| 7.1 GitHub | Repositório privado betitanx/CP-NLP-e-front; código também disponível no ZIP. Acesso aos professores deve ser concedido |
+| 7.1 GitHub | Repositório privado betitanx/CP2-PLN-FrontEnd; código também disponível no ZIP. Acesso aos professores deve ser concedido |
 | 7.2 README | Caso, arquitetura, API, tecnologias, execução, decisões, limitações e uso de IA presentes; nomes, RMs, divisão prevista de revisão/apresentação e justificativa do modelo preenchidos; divisão não atribui autoria passada |
 | 7.3 Ficha do bot | Presente, com o conteúdo exigido; formato exato do template da Aula 2 não pôde ser comparado porque o template não foi fornecido |
 | 7.4 Relatório de métricas | Atualizado com o lote real: resultados, insight e limites documentados. Sem CSAT no lote e sem comparação entre os dois modelos |
@@ -60,7 +60,7 @@ SQLite, exclusão de sessão, feedback CSAT e fila de handoffs estão implementa
 3. Concluído: T1–T8 e dez conversas por HTTP, com modelo real quando necessário, em banco separado. Verificação prática da interface documentada em testes_praticos.md; o vídeo continua pendente.
 4. Concluído: resultado_modelo_real.json, relatório de métricas e justificativa empírica do modelo atualizados.
 5. Concluído: nomes, RMs e divisão prevista de revisão/apresentação; autoria passada não foi inventada.
-6. Repositório privado preparado em betitanx/CP-NLP-e-front, sem .env ou segredos; conceder acesso aos professores antes de entregar.
+6. Repositório privado preparado em betitanx/CP2-PLN-FrontEnd, sem .env ou segredos; conceder acesso aos professores antes de entregar.
 7. Gravar o vídeo no roteiro exigido, com todos os integrantes, e disponibilizar o link não listado junto ao repositório.
 
 Não é possível afirmar uma nota nem marcar a entrega como completa apenas com os testes automatizados. As principais pendências são de validação do modelo e evidências acadêmicas, e não da separação entre frontend e backend.

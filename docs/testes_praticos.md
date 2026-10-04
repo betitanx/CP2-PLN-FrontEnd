@@ -42,6 +42,6 @@ Evidências atuais: resultado_testes_interface.json, prints/teste_agendamento.jp
 
 ## Pendências de entrega
 
-Código, nomes/RMs, divisão prevista para revisão/apresentação, documentação e relatório real estão preparados. O repositório privado é betitanx/CP-NLP-e-front. Falta conceder acesso aos professores e gravar/publicar o vídeo não listado, com os cinco integrantes e os oito testes na ordem do enunciado. O template exato da Aula 2 não foi fornecido para comparar formatação. Instalação em uma máquina limpa não foi repetida.
+Código, nomes/RMs, divisão prevista para revisão/apresentação, documentação e relatório real estão preparados. O repositório privado é betitanx/CP2-PLN-FrontEnd. Falta conceder acesso aos professores e gravar/publicar o vídeo não listado, com os cinco integrantes e os oito testes na ordem do enunciado. O template exato da Aula 2 não foi fornecido para comparar formatação. Instalação em uma máquina limpa não foi repetida.
 
 Gemma permanece selecionável, mas teve indisponibilidade por HTTP 429 na amostra anterior. Para a gravação, Nemotron é a opção efetivamente validada; disponibilidade futura depende do provedor gratuito. Não houve troca para modelo pago, repetição automática ou exposição de chave na entrega.

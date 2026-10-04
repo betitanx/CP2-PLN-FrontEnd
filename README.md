@@ -1,4 +1,4 @@
-# Prosa Bot como Serviço
+# CP2 - PLN & FrontEnd
 
 Protótipo acadêmico de atendimento da Oficina Roda Certa fictícia. A Lia agenda uma avaliação automotiva, responde seis perguntas frequentes e transfere situações sensíveis ou reclamações para uma fila humana. Backend e frontend são projetos independentes; toda a inteligência e a memória ficam no servidor.
 
@@ -14,7 +14,7 @@ Divisão prevista para a revisão e apresentação da entrega:
 | Bernardo Braga Perobeli | 562468 | Conferir os testes e demonstrar a integração |
 | Felipe Stefani Honorato | 563380 | Revisar a documentação e apresentar as métricas |
 
-Repositório GitHub privado: [betitanx/CP-NLP-e-front](https://github.com/betitanx/CP-NLP-e-front). Conceda acesso aos professores antes de entregar. Vídeo não listado: **a gravar e publicar pelo grupo**. O checkpoint fixa o prazo em 04/10/2026 às 23h59.
+Repositório GitHub privado: [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). Conceda acesso aos professores antes de entregar. Vídeo não listado: **a gravar e publicar pelo grupo**. O checkpoint fixa o prazo em 04/10/2026 às 23h59.
 
 ## Arquitetura
 
