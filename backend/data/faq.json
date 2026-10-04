@@ -1,0 +1,8 @@
+[
+  {"id":"horarios","gatilhos":["funcionamento","abre","abrem","fecha","fecham"],"pergunta":"Qual é o horário de funcionamento?","resposta":"A Oficina Roda Certa fictícia funciona de segunda a sexta, das 8h às 18h."},
+  {"id":"endereco","gatilhos":["endereco","onde fica","localizacao"],"pergunta":"Onde fica a oficina?","resposta":"Nosso endereço fictício é Rua das Rodas, 100, Vila Exemplo, São Paulo."},
+  {"id":"pagamento","gatilhos":["pagamento","pagar","cartao","pix"],"pergunta":"Quais formas de pagamento são aceitas?","resposta":"Neste cenário fictício, aceitamos Pix, cartão e dinheiro. Condições de parcelamento devem ser verificadas com o atendente."},
+  {"id":"servicos","gatilhos":["quais servicos","que servicos","troca de oleo","revisao"],"pergunta":"Quais serviços são oferecidos?","resposta":"Nossa base confirma revisão preventiva e troca de óleo. Outros serviços precisam de confirmação com o atendente."},
+  {"id":"precos","gatilhos":["preco","valor","orcamento","quanto custa"],"pergunta":"Quanto custa uma revisão?","resposta":"O orçamento depende da avaliação do veículo. Não tenho preços confirmados na base; um atendente pode ajudar."},
+  {"id":"duracao","gatilhos":["demora","duracao","quanto tempo"],"pergunta":"Quanto tempo dura o atendimento?","resposta":"A visita inicial fictícia dura cerca de 30 minutos. O prazo do serviço só é definido após a avaliação."}
+]

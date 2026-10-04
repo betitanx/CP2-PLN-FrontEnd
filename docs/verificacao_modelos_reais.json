@@ -1,0 +1,14 @@
+[
+  {
+    "model": "google/gemma-4-26b-a4b-it:free",
+    "status": "falha",
+    "detail": "O limite de uso gratuito do OpenRouter foi atingido ou o provedor está sobrecarregado. Aguarde antes de tentar novamente; a conversa foi preservada.",
+    "latency_ms": 1027.11
+  },
+  {
+    "model": "nvidia/nemotron-3-super-120b-a12b:free",
+    "status": "ok",
+    "intent": "agendar",
+    "latency_ms": 850.22
+  }
+]
