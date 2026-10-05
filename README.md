@@ -32,7 +32,7 @@ flowchart LR
     O --> L[Cliente de modelo]
     A --> J[Avaliador de conversas por LLM]
     J --> L
-    L --> M[OpenRouter gratuito ou Ollama]
+    L --> M[OpenRouter gratuito]
 ```
 
 O frontend importa somente seus componentes e seu cliente HTTP. A aplicação guarda apenas `session_id` como estado de conversa em `st.session_state`; widgets têm estado transitório gerenciado pelo Streamlit. Histórico, slots, situação e último raio-X são recuperados por `GET /sessions/{session_id}` a cada execução. As rotas validam Pydantic e delegam ao orquestrador.
