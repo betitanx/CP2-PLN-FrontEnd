@@ -14,7 +14,7 @@ Divisão prevista para a revisão e apresentação da entrega:
 | Bernardo Braga Perobeli | 562468 | Conferir os testes e demonstrar a integração |
 | Felipe Stefani Honorato | 563380 | Revisar a documentação e apresentar as métricas |
 
-Repositório GitHub privado: [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). Conceda acesso aos professores antes de entregar. Vídeo não listado: **a gravar e publicar pelo grupo**. O checkpoint fixa o prazo em 04/10/2026 às 23h59.
+Repositório GitHub público: [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). Vídeo não listado: **a gravar e publicar pelo grupo**. O checkpoint fixa o prazo em 04/10/2026 às 23h59.
 
 ## Arquitetura
 
@@ -210,7 +210,7 @@ No terminal do backend:
 .\.venv\Scripts\python.exe -X utf8 scripts\avaliar.py --simulado
 ```
 
-Os testes isolam o provedor externo com dublê e usam SQLite e rotas reais. `--simulado` é explícito e gera um banco temporário separado. Nenhum provedor fictício é habilitado na aplicação entregue. As métricas são calculadas sobre eventos efetivamente executados, mas não comprovam qualidade ou latência do LLM real. Consulte `docs/metricas.md` e `docs/resultado_simulado.json`.
+Os testes isolam o provedor externo com dublê e usam SQLite e rotas reais. `--simulado` é explícito e gera um banco temporário separado. Nenhum provedor fictício é habilitado na aplicação entregue. As métricas são calculadas sobre eventos efetivamente executados, mas não comprovam qualidade ou latência do LLM real. A simulação gera um resultado local; a evidência da entrega está em [docs/metricas.md](docs/metricas.md) e [docs/resultado_modelo_real.json](docs/resultado_modelo_real.json).
 
 Para verificar os erros HTTP e a tela com API desligada, no terminal do frontend:
 
@@ -225,7 +225,7 @@ Com a API e o modelo reais ativos, use um banco novo dedicado à avaliação em 
 .\.venv\Scripts\python.exe -X utf8 scripts\avaliar.py --modelo nvidia/nemotron-3-super-120b-a12b:free
 ```
 
-O script adiciona T1–T8 e dez conversas variadas e grava `docs/resultado_modelo_real.json`. Não o execute novamente no mesmo banco de avaliação, pois existem reservas fictícias já preenchidas. Atualize o relatório com esse resultado. Execute também o roteiro manual de `docs/testes.md`: o script não substitui a interação pelo Streamlit e pelo Swagger, nem a gravação com todos os integrantes.
+O script adiciona T1–T8 e dez conversas variadas e grava `docs/resultado_modelo_real.json`. Não o execute novamente no mesmo banco de avaliação, pois existem reservas fictícias já preenchidas. Atualize o relatório com esse resultado. Execute também o roteiro manual de [docs/testes_praticos.md](docs/testes_praticos.md): o script não substitui a interação pelo Streamlit e pelo Swagger, nem a gravação com todos os integrantes.
 
 Contenção = conversas encerradas sem handoff / conversas com ao menos um turno concluído. Fallback = turnos em fallback / turnos concluídos. Handoff = sessões que tiveram handoff / conversas. Mensagens por conversa = turnos do usuário / conversas. Sessões ativas entram no denominador, mas não contam como contidas. Sessões vazias são excluídas. Erros 503 são contabilizados separadamente. Deletar uma sessão remove seus eventos, alterando as métricas históricas.
 
@@ -237,9 +237,20 @@ O reconhecimento por gatilhos e o sentimento léxico não cobrem todas as expres
 
 O frontend recupera todo o histórico a cada atualização. O banco cresce com sessões não apagadas; retenção e paginação ficam para evolução. A fila humana não possui ferramenta de resposta nem SLA. O direito ao esquecimento remove registros acessíveis pela aplicação, mas não representa apagamento forense de páginas SQLite, backups ou dados já enviados a provedores externos.
 
-**Pendente para entrega acadêmica:** executar T1–T8 com LLM real; observar latência e qualidade em português; atualizar `docs/metricas.md`; preencher nomes/RMs/responsabilidades; publicar o repositório; gravar e publicar o vídeo com os integrantes.
+**Pendente para entrega acadêmica:** gravar e publicar o vídeo de até cinco minutos com os integrantes, seguindo [docs/roteiro_video.md](docs/roteiro_video.md). Código, identificação do grupo, avaliação real e relatório estão disponíveis neste repositório.
 
-Consulte `docs/revisao_requisitos.md` para a comparação item a item entre o enunciado, a implementação e as evidências que ainda faltam. A revisão encontrou e corrigiu falhas na oferta humana durante a validação e na preservação do relato do handoff.
+## Arquivos para avaliação
+
+| Arquivo ou pasta | Conteúdo |
+|---|---|
+| `backend/` | API, bot, prompt, FAQ, agenda, configuração, testes e script de avaliação |
+| `frontend/` | Interface, cliente HTTP, configuração e testes |
+| [Ficha do bot](docs/ficha_do_bot.md) | Persona, capacidades, limites e exemplos de conversa |
+| [Relatório de métricas](docs/metricas.md) | Resultados reais, análise e melhoria proposta |
+| [Dados da avaliação](docs/resultado_modelo_real.json) | T1–T8 e dez conversas, com histórico fictício e estado final |
+| [Testes práticos](docs/testes_praticos.md) | Resultados e roteiro para repetir os cenários |
+| `docs/prints/` | Chat, Swagger, seleção de modelos, slots, handoff e métricas |
+| [Roteiro do vídeo](docs/roteiro_video.md) | Ordem e duração da demonstração exigida |
 
 ## Uso de IA generativa
 
@@ -255,4 +266,4 @@ O código inicial, os testes automatizados, o prompt e a documentação foram pr
 - [Componentes de chat do Streamlit](https://docs.streamlit.io/develop/api-reference/chat/st.chat_input)
 - [Segurança no FastAPI](https://fastapi.tiangolo.com/tutorial/security/first-steps/)
 
-A validação prática atual está em [docs/testes_praticos.md](docs/testes_praticos.md). O relatório registra o que foi exercitado pela interface, pelo serviço HTTP e pelos testes automatizados, além das pendências de GitHub e vídeo.
+A validação prática atual está em [docs/testes_praticos.md](docs/testes_praticos.md). O relatório registra o que foi exercitado pela interface, pelo serviço HTTP e pelos testes automatizados, além das pendência de vídeo.

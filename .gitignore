@@ -7,3 +7,5 @@ __pycache__/
 *.sqlite3-wal
 *.sqlite3-shm
 backend/data/execucao/
+
+docs/resultado_simulado.json
