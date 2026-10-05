@@ -7,7 +7,7 @@ from test_contrato import cliente, sessao, falar
 
 def test_janela_envia_contexto_real_do_servidor(cliente):
     sid = sessao(cliente)
-    for mensagem in ['agendar','Marina Alves','ABC1D23','2026-10-06','Qual o endereço?']:
+    for mensagem in ['agendar','Marina Alves','ABC1D23','06/10/2026','Qual o endereço?']:
         falar(cliente, sid, mensagem)
     bot = cliente.app.state.bot
     bot.config.turns = 2

@@ -23,13 +23,13 @@ Não diagnostica defeitos, não recomenda reparos de risco, não recebe pagament
 - Usuário: Marina Alves.
 - Lia: Qual é a placa fictícia do veículo? Use ABC1D23 ou ABC1234.
 - Usuário: ABC1D23.
-- Lia: Para qual data deseja a avaliação? Use AAAA-MM-DD.
-- Usuário: 2026-10-06.
+- Lia: Para qual data deseja a avaliação? Use DD/MM/AAAA.
+- Usuário: 06/10/2026.
 - Lia: Tenho estes horários na agenda simulada: 09:00, 11:00, 14:00, 16:00. Qual prefere?
 - Usuário: 09:00.
-- Lia: Avaliação para Marina Alves, placa ABC1D23, em 2026-10-06 às 09:00. Deseja confirmar?
+- Lia: Avaliação para Marina Alves, placa ABC1D23, em 06/10/2026 às 09:00. Deseja confirmar?
 - Usuário: Confirmar.
-- Lia: Agendamento fictício confirmado para 2026-10-06 às 09:00, placa ABC1D23. Obrigada, Marina Alves!
+- Lia: Agendamento fictício confirmado para 06/10/2026 às 09:00, placa ABC1D23. Obrigada, Marina Alves!
 
 Os horários dependem das reservas já existentes. Interrupções para FAQ não apagam os slots. Data impossível e placa inválida são recusadas por código.
 

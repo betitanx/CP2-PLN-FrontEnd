@@ -1,4 +1,13 @@
+from copy import deepcopy
+from datetime import date
 import streamlit as st
+
+
+def slots_para_exibir(slots):
+    exibidos = dict(slots)
+    if exibidos.get('data'):
+        exibidos['data'] = date.fromisoformat(exibidos['data']).strftime('%d/%m/%Y')
+    return exibidos
 
 
 def raio_x(sessao):
@@ -12,10 +21,12 @@ def raio_x(sessao):
         st.write('**Turno:**', turno['turn'])
     st.write('**Situação:**', sessao['status'])
     st.write('**Slots**')
-    st.json(sessao['slots'])
+    st.json(slots_para_exibir(sessao['slots']))
     if sessao['handoff']['active']:
         st.warning('Atendimento humano solicitado')
-        st.json(sessao['handoff'])
+        resumo = deepcopy(sessao['handoff'])
+        resumo['summary']['dados'] = slots_para_exibir(resumo['summary']['dados'])
+        st.json(resumo)
 
 
 def metricas(dados):

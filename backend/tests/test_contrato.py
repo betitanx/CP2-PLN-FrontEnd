@@ -33,7 +33,7 @@ def falar(c, sid, mensagem):
 
 def test_t1_caminho_feliz(cliente):
     sid = sessao(cliente)
-    for msg in ['Quero agendar', 'Marina Alves', 'ABC1D23', '2026-10-06', '09:00', 'confirmar']:
+    for msg in ['Quero agendar', 'Marina Alves', 'ABC1D23', '06/10/2026', '09:00', 'confirmar']:
         resposta = falar(cliente, sid, msg)
     assert resposta['slots']['placa'] == 'ABC1D23'
     assert resposta['status'] == 'encerrada'
@@ -51,7 +51,7 @@ def test_t2_ambiguidades_oferecem_humano(cliente):
 
 def test_t3_memoria_de_horarios(cliente):
     sid = sessao(cliente)
-    for msg in ['agendar', 'Marina Alves', 'ABC1D23', '2026-10-06', 'Qual o endereço?', 'Qual a forma de pagamento?']:
+    for msg in ['agendar', 'Marina Alves', 'ABC1D23', '06/10/2026', 'Qual o endereço?', 'Qual a forma de pagamento?']:
         falar(cliente, sid, msg)
     assert '09:00' in falar(cliente, sid, 'e aquele horário que você sugeriu?')['reply']
 
@@ -60,7 +60,7 @@ def test_t4_dados_invalidos_preservam_estado(cliente):
     sid = sessao(cliente)
     for msg in ['agendar', 'Marina Alves', 'placa errada', 'ABC1D23']:
         falar(cliente, sid, msg)
-    r = falar(cliente, sid, '2026-02-31')
+    r = falar(cliente, sid, '31/02/2026')
     assert r['slots']['nome'] == 'Marina Alves'
     assert r['slots']['data'] is None
     assert 'inválida' in r['reply']
@@ -130,7 +130,7 @@ def test_esquecimento_apaga_logs_e_feedback(cliente):
 def test_conflito_de_agenda(cliente):
     primeiro, segundo = sessao(cliente), sessao(cliente)
     for sid in [primeiro, segundo]:
-        for msg in ['agendar', 'Marina Alves', 'ABC1D23', '2026-10-06', '09:00', 'confirmar']:
+        for msg in ['agendar', 'Marina Alves', 'ABC1D23', '06/10/2026', '09:00', 'confirmar']:
             r = falar(cliente, sid, msg)
     assert r['status'] == 'ativa'
     assert 'ocupado' in r['reply']

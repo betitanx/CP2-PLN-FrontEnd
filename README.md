@@ -41,7 +41,7 @@ Python 3.11 ou superior, FastAPI, Pydantic 2, SQLite, HTTPX, Streamlit e Request
 Provedor padrão: OpenRouter com `google/gemma-4-26b-a4b-it:free`, com acesso isolado em `backend/app/llm/client.py`. A plataforma também oferece `nvidia/nemotron-3-super-120b-a12b:free`, de outra família.
 
 1. Custo: os dois modelos selecionados têm preço zero no catálogo consultado em 04/10/2026; o adaptador exige preço zero de entrada, saída e requisição. É necessária uma conta com chave de API, acesso à internet e cota disponível.
-2. Latência observada: Nemotron respondeu a uma classificação real em **850,22 ms**; Gemma retornou HTTP 429 em uma tentativa. Uma amostra não caracteriza desempenho médio. O lote real T1–T8 mais dez conversas teve média de **86,05 ms por turno**, incluindo regras e chamadas ao LLM; não é média exclusiva de inferência.
+2. Latência observada: Nemotron respondeu a uma classificação real em **850,22 ms**; Gemma retornou HTTP 429 em uma tentativa. Uma amostra não caracteriza desempenho médio. O lote real T1–T8 mais dez conversas teve média de **83,41 ms por turno**, incluindo regras e chamadas ao LLM; não é média exclusiva de inferência.
 3. Português: o lote com Nemotron passou pelos cenários T1–T8, incluindo fallback em entradas vagas, com respostas de negócio em português e sem inventar serviços. A avaliação é dirigida e não demonstra qualidade geral. Para a avaliação final, registre o identificador selecionado, a latência e a qualidade observada; não extrapole resultados de um modelo para o outro.
 
 LangChain não é obrigatório. Para um único modelo, uma chamada HTTP e uma janela deslizante, o cliente direto reduz dependências. O provedor pode ser trocado pelo `.env`, sem alterar regras, API ou frontend.
@@ -195,6 +195,10 @@ O raio-X inclui `sentiment: {label, score}` e `handoff: {active, reason, summary
 3. **O LLM entende variações de linguagem e gera saudações ou agradecimentos.** A classificação vem em JSON validado. Respostas comerciais e transacionais são escolhidas pelo orquestrador. O texto gerado passa pelo guardrail de saída. Expressões explícitas e coleta de slots usam regras para reduzir custo e manter previsibilidade.
 
 O sentimento é léxico: frustração e reclamação antecipam acolhimento e handoff. `score` é um indicador heurístico, não probabilidade calibrada. Após duas falhas consecutivas, incluindo erros de validação de dados, oferece um atendente; o usuário aceita com `sim` ou pede `humano`. Handoff explícito, frustração e situação sensível transferem imediatamente. Mensagens posteriores preservam o relato original e acrescentam o complemento mais recente; os demais ficam no histórico completo.
+
+## Datas brasileiras
+
+A conversa aceita e mostra datas em **DD/MM/AAAA**, por exemplo `06/10/2026`. A validação por código rejeita datas impossíveis e respeita dias úteis, feriados e reservas. O raio-X e o resumo humano também usam o formato brasileiro. A API, a agenda e o SQLite mantêm ISO (`2026-10-06`) para armazenamento e comparação; entradas ISO continuam aceitas para compatibilidade com outras telas. Não há inversão para mês/dia/ano.
 
 ## Memória e controle da janela
 

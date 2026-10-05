@@ -2,8 +2,9 @@ import json
 import re
 import threading
 import time
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 from app.config import BASE
+from app.core.dates import interpretar_data, formatar_data
 from app.llm.client import LLMClient, ModeloIndisponivel
 from app.memory.store import Store, SAUDACAO
 from app.nlp.nlu import detectar_intencao, normalizar
@@ -38,13 +39,13 @@ class Orchestrator:
     def proxima_pergunta(self, s):
         perguntas = {'nome': 'Qual é seu nome fictício completo?',
                      'placa': 'Qual é a placa fictícia do veículo? Use ABC1D23 ou ABC1234.',
-                     'data': 'Para qual data deseja a avaliação? Use AAAA-MM-DD.',
+                     'data': 'Para qual data deseja a avaliação? Use DD/MM/AAAA.',
                      'horario': 'Tenho estes horários na agenda simulada: ' + ', '.join(s['sugeridos']) + '. Qual prefere?'}
         for campo in ['nome','placa','data','horario']:
             if s['slots'][campo] is None:
                 return perguntas[campo]
         x = s['slots']
-        return f"Avaliação para {x['nome']}, placa {x['placa']}, em {x['data']} às {x['horario']}. Deseja confirmar?"
+        return f"Avaliação para {x['nome']}, placa {x['placa']}, em {formatar_data(x['data'])} às {x['horario']}. Deseja confirmar?"
 
     def fluxo(self, s, texto):
         x = s['slots']
@@ -61,17 +62,16 @@ class Orchestrator:
             x['placa'] = placa
         elif campo == 'data':
             try:
-                if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', texto):
-                    raise ValueError
-                dia = date.fromisoformat(texto)
+                dia = interpretar_data(texto)
+                data_iso = dia.isoformat()
             except ValueError:
-                return 'Data inválida. Para qual data deseja a avaliação? Use AAAA-MM-DD.', True
-            if dia.weekday() not in self.agenda['dias_uteis'] or texto in self.agenda['dias_fechados']:
+                return 'Data inválida. Para qual data deseja a avaliação? Use DD/MM/AAAA.', True
+            if dia.weekday() not in self.agenda['dias_uteis'] or data_iso in self.agenda['dias_fechados']:
                 return 'A oficina está fechada nessa data na agenda simulada. Qual outro dia útil prefere?', True
-            disponiveis = [h for h in self.agenda['horarios'] if h not in self.store.ocupados(texto)]
+            disponiveis = [h for h in self.agenda['horarios'] if h not in self.store.ocupados(data_iso)]
             if not disponiveis:
                 return 'Todos os horários dessa data estão ocupados. Qual outro dia útil prefere?', True
-            x['data'] = texto
+            x['data'] = data_iso
             s['sugeridos'] = disponiveis
         elif campo == 'horario':
             if texto not in self.agenda['horarios']:
@@ -90,7 +90,7 @@ class Orchestrator:
             s['reserva_pendente'] = (x['data'], x['horario'])
             s['status'] = 'encerrada'
             s['acoes'].append('Agendamento confirmado na agenda simulada.')
-            return f"Agendamento fictício confirmado para {x['data']} às {x['horario']}, placa {x['placa']}. Obrigada, {x['nome']}!", False
+            return f"Agendamento fictício confirmado para {formatar_data(x['data'])} às {x['horario']}, placa {x['placa']}. Obrigada, {x['nome']}!", False
         s['acoes'].append(f'Slot {campo} validado por código.')
         return self.proxima_pergunta(s), False
 
@@ -128,7 +128,7 @@ class Orchestrator:
             elif 'placa' in normalizar(texto):
                 reply = 'Sua placa fictícia registrada é ' + (s['slots']['placa'] or 'ainda não informada') + '.'
             elif s['sugeridos']:
-                reply = f"Na data {s['slots']['data']}, sugeri: " + ', '.join(s['sugeridos']) + '. Esses horários continuam sujeitos à confirmação.'
+                reply = f"Na data {formatar_data(s['slots']['data'])}, sugeri: " + ', '.join(s['sugeridos']) + '. Esses horários continuam sujeitos à confirmação.'
             else:
                 reply = 'Ainda não sugeri horários nesta conversa. Deseja agendar uma avaliação?'
             return reply, 'memoria', False, []

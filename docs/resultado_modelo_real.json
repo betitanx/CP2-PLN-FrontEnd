@@ -1,11 +1,13 @@
 {
   "modo": "modelo_real",
   "model": "nvidia/nemotron-3-super-120b-a12b:free",
-  "timestamp": "2026-10-04T23:30:16.554113+00:00",
+  "formato_data_usuario": "DD/MM/AAAA",
+  "formato_data_api": "AAAA-MM-DD",
+  "timestamp": "2026-10-05T00:29:29.648317+00:00",
   "casos": [
     {
       "caso": "T1",
-      "session_id": "2eac18ff-b263-46d0-a207-86a9c31deb96",
+      "session_id": "e2916ca3-628e-4fc5-b72b-f7c19fde518a",
       "turnos": 6,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -36,11 +38,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-06"
+          "content": "06/10/2026"
         },
         {
           "role": "assistant",
@@ -52,7 +54,7 @@
         },
         {
           "role": "assistant",
-          "content": "Avaliação para Marina Alves, placa ABC1D23, em 2026-10-06 às 09:00. Deseja confirmar?"
+          "content": "Avaliação para Marina Alves, placa ABC1D23, em 06/10/2026 às 09:00. Deseja confirmar?"
         },
         {
           "role": "user",
@@ -60,7 +62,7 @@
         },
         {
           "role": "assistant",
-          "content": "Agendamento fictício confirmado para 2026-10-06 às 09:00, placa ABC1D23. Obrigada, Marina Alves!"
+          "content": "Agendamento fictício confirmado para 06/10/2026 às 09:00, placa ABC1D23. Obrigada, Marina Alves!"
         }
       ],
       "slots": {
@@ -78,7 +80,7 @@
     },
     {
       "caso": "T2",
-      "session_id": "a56e9beb-7c52-44b5-a10e-ff04f6ebd916",
+      "session_id": "b48fe61c-f9ae-4167-bd18-2892dfc2bd8f",
       "turnos": 2,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -119,7 +121,7 @@
     },
     {
       "caso": "T3",
-      "session_id": "637b2fbc-6a5d-43c5-83d0-6401cd511141",
+      "session_id": "3068404f-f1a1-4c36-8d7e-3cfaeccaec36",
       "turnos": 7,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -150,11 +152,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-07"
+          "content": "07/10/2026"
         },
         {
           "role": "assistant",
@@ -182,7 +184,7 @@
         },
         {
           "role": "assistant",
-          "content": "Na data 2026-10-07, sugeri: 09:00, 11:00, 14:00, 16:00. Esses horários continuam sujeitos à confirmação."
+          "content": "Na data 07/10/2026, sugeri: 09:00, 11:00, 14:00, 16:00. Esses horários continuam sujeitos à confirmação."
         }
       ],
       "slots": {
@@ -200,7 +202,7 @@
     },
     {
       "caso": "T4",
-      "session_id": "abddc9b2-9a98-4c05-aac9-1e5e9c053574",
+      "session_id": "539ef4d8-1b13-4597-850a-058539c7cfcb",
       "turnos": 5,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -239,15 +241,15 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-02-31"
+          "content": "31/02/2026"
         },
         {
           "role": "assistant",
-          "content": "Data inválida. Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Data inválida. Para qual data deseja a avaliação? Use DD/MM/AAAA."
         }
       ],
       "slots": {
@@ -265,7 +267,7 @@
     },
     {
       "caso": "T5",
-      "session_id": "bd21b1ba-1eda-4a83-8b6b-8859998924fb",
+      "session_id": "72e6ef43-5ad9-46cf-a0ae-ce8b4c5e1acb",
       "turnos": 2,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -306,7 +308,7 @@
     },
     {
       "caso": "T6",
-      "session_id": "5414ca16-2e55-4f9d-aa33-db1e7f4b63b7",
+      "session_id": "c075a6f1-eb32-4c76-bbe9-6172db808936",
       "turnos": 1,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -339,7 +341,7 @@
     },
     {
       "caso": "T7",
-      "session_id": "687aaf6b-749e-422f-a25d-9258f5c63f2c",
+      "session_id": "1873f1a2-3c04-43b1-bf63-1ae780de1db0",
       "turnos": 3,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -401,7 +403,7 @@
     },
     {
       "caso": "T8",
-      "session_id": "934295b6-7c2f-4de1-ad86-867cccb2323b",
+      "session_id": "c17b8994-35a9-480f-a219-464e128357a9",
       "turnos": 4,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -432,11 +434,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-15"
+          "content": "15/10/2026"
         },
         {
           "role": "assistant",
@@ -458,7 +460,7 @@
     },
     {
       "caso": "Extra 1",
-      "session_id": "678abe5d-2b33-4536-a621-8292d3ea2bca",
+      "session_id": "f57622ff-2233-4aee-aee1-ec81766f3da3",
       "turnos": 6,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -489,11 +491,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-08"
+          "content": "08/10/2026"
         },
         {
           "role": "assistant",
@@ -505,7 +507,7 @@
         },
         {
           "role": "assistant",
-          "content": "Avaliação para João Exemplo, placa DEF2G34, em 2026-10-08 às 09:00. Deseja confirmar?"
+          "content": "Avaliação para João Exemplo, placa DEF2G34, em 08/10/2026 às 09:00. Deseja confirmar?"
         },
         {
           "role": "user",
@@ -513,7 +515,7 @@
         },
         {
           "role": "assistant",
-          "content": "Agendamento fictício confirmado para 2026-10-08 às 09:00, placa DEF2G34. Obrigada, João Exemplo!"
+          "content": "Agendamento fictício confirmado para 08/10/2026 às 09:00, placa DEF2G34. Obrigada, João Exemplo!"
         }
       ],
       "slots": {
@@ -531,7 +533,7 @@
     },
     {
       "caso": "Extra 2",
-      "session_id": "0e89f425-87e0-42ac-98f3-34f1db6d849f",
+      "session_id": "92febdf8-1ada-44cd-b0e1-79fe470d2890",
       "turnos": 6,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -562,11 +564,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-09"
+          "content": "09/10/2026"
         },
         {
           "role": "assistant",
@@ -578,7 +580,7 @@
         },
         {
           "role": "assistant",
-          "content": "Avaliação para Ana Teste, placa GHI3J45, em 2026-10-09 às 11:00. Deseja confirmar?"
+          "content": "Avaliação para Ana Teste, placa GHI3J45, em 09/10/2026 às 11:00. Deseja confirmar?"
         },
         {
           "role": "user",
@@ -586,7 +588,7 @@
         },
         {
           "role": "assistant",
-          "content": "Agendamento fictício confirmado para 2026-10-09 às 11:00, placa GHI3J45. Obrigada, Ana Teste!"
+          "content": "Agendamento fictício confirmado para 09/10/2026 às 11:00, placa GHI3J45. Obrigada, Ana Teste!"
         }
       ],
       "slots": {
@@ -604,7 +606,7 @@
     },
     {
       "caso": "Extra 3",
-      "session_id": "071af3b8-74bd-48c3-9476-dcb15646ec7f",
+      "session_id": "a50cd5c0-9bb3-4e55-8d03-7f8462fe0f21",
       "turnos": 6,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -635,11 +637,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-13"
+          "content": "13/10/2026"
         },
         {
           "role": "assistant",
@@ -651,7 +653,7 @@
         },
         {
           "role": "assistant",
-          "content": "Avaliação para Bia Fictícia, placa JKL4M56, em 2026-10-13 às 14:00. Deseja confirmar?"
+          "content": "Avaliação para Bia Fictícia, placa JKL4M56, em 13/10/2026 às 14:00. Deseja confirmar?"
         },
         {
           "role": "user",
@@ -659,7 +661,7 @@
         },
         {
           "role": "assistant",
-          "content": "Agendamento fictício confirmado para 2026-10-13 às 14:00, placa JKL4M56. Obrigada, Bia Fictícia!"
+          "content": "Agendamento fictício confirmado para 13/10/2026 às 14:00, placa JKL4M56. Obrigada, Bia Fictícia!"
         }
       ],
       "slots": {
@@ -677,7 +679,7 @@
     },
     {
       "caso": "Extra 4",
-      "session_id": "ac2a7562-68b0-4eeb-ae5a-407dc1058113",
+      "session_id": "732a6534-5a9c-4f75-8375-1595c3032821",
       "turnos": 6,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -708,11 +710,11 @@
         },
         {
           "role": "assistant",
-          "content": "Para qual data deseja a avaliação? Use AAAA-MM-DD."
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
         },
         {
           "role": "user",
-          "content": "2026-10-14"
+          "content": "14/10/2026"
         },
         {
           "role": "assistant",
@@ -724,7 +726,7 @@
         },
         {
           "role": "assistant",
-          "content": "Avaliação para Caio Exemplo, placa NOP5Q67, em 2026-10-14 às 16:00. Deseja confirmar?"
+          "content": "Avaliação para Caio Exemplo, placa NOP5Q67, em 14/10/2026 às 16:00. Deseja confirmar?"
         },
         {
           "role": "user",
@@ -732,7 +734,7 @@
         },
         {
           "role": "assistant",
-          "content": "Agendamento fictício confirmado para 2026-10-14 às 16:00, placa NOP5Q67. Obrigada, Caio Exemplo!"
+          "content": "Agendamento fictício confirmado para 14/10/2026 às 16:00, placa NOP5Q67. Obrigada, Caio Exemplo!"
         }
       ],
       "slots": {
@@ -750,7 +752,7 @@
     },
     {
       "caso": "Extra 5",
-      "session_id": "b2f956bc-a71a-4ed4-bb81-420a15d80666",
+      "session_id": "ca376ea4-ed64-4438-b78d-ecc0ed9149fe",
       "turnos": 2,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -791,7 +793,7 @@
     },
     {
       "caso": "Extra 6",
-      "session_id": "82990b20-f8c0-4e6c-9938-05bf69287779",
+      "session_id": "49764224-405c-405a-bd1b-ae21cfe43d0d",
       "turnos": 2,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -832,7 +834,7 @@
     },
     {
       "caso": "Extra 7",
-      "session_id": "85275c83-e00d-4c27-9d35-4457ddd2c8db",
+      "session_id": "e879a001-f61f-4e6c-89cc-1f6d5954f110",
       "turnos": 2,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -873,7 +875,7 @@
     },
     {
       "caso": "Extra 8",
-      "session_id": "b4a4cadd-dbd2-4bc0-b66f-9dddaa08f4ea",
+      "session_id": "18497b4a-6cc7-4f49-9dbb-9db5ca573b71",
       "turnos": 3,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -934,7 +936,7 @@
     },
     {
       "caso": "Extra 9",
-      "session_id": "df414828-a48e-4159-84c9-5ef6f9ed6929",
+      "session_id": "90de0899-04b1-4f0a-a448-9bf9ef1550c9",
       "turnos": 1,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -979,7 +981,7 @@
     },
     {
       "caso": "Extra 10",
-      "session_id": "0ff3f12b-bc0b-4432-9fc6-0afbe210c9bf",
+      "session_id": "8b0a5c39-14fe-40f4-950d-09948cd3ba1f",
       "turnos": 2,
       "verificado": true,
       "model": "nvidia/nemotron-3-super-120b-a12b:free",
@@ -1029,7 +1031,7 @@
     "taxa_fallback": 0.10606060606060606,
     "taxa_handoff": 0.16666666666666666,
     "mensagens_por_conversa": 3.6666666666666665,
-    "latencia_media_ms": 86.04696969696968,
+    "latencia_media_ms": 83.4060606060606,
     "eventos_guardrail": 3,
     "csat_medio": null,
     "respostas_csat": 0,

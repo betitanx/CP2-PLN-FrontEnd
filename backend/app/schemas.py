@@ -18,7 +18,7 @@ class ChatIn(BaseModel):
 class Slots(BaseModel):
     nome: str | None = None
     placa: str | None = None
-    data: str | None = None
+    data: str | None = Field(default=None, description='Data validada em ISO (AAAA-MM-DD); a conversa e a tela usam DD/MM/AAAA.')
     horario: str | None = None
 
 

@@ -3,6 +3,14 @@ import requests
 from services.api_client import APIClient, ErroAPI
 
 
+def test_data_dos_slots_e_exibida_em_portugues_sem_alterar_estado():
+    from components.panels import slots_para_exibir
+    slots = {'nome': 'Marina Teste', 'data': '2026-10-06'}
+    assert slots_para_exibir(slots)['data'] == '06/10/2026'
+    assert slots['data'] == '2026-10-06'
+    assert slots_para_exibir({'data': None}) == {'data': None}
+
+
 @pytest.mark.parametrize('status', [401,404,422,503])
 def test_erros_http_sao_mensagens_amigaveis(monkeypatch, status):
     def responder(*args, **kwargs):

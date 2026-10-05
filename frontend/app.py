@@ -1,6 +1,6 @@
 import streamlit as st
 from services.api_client import APIClient, ErroAPI
-from components.panels import raio_x, metricas
+from components.panels import raio_x, metricas, slots_para_exibir
 
 st.set_page_config(page_title='Prosa | Roda Certa', page_icon='💬', layout='wide')
 api = APIClient()
@@ -27,7 +27,9 @@ try:
             st.info('Nenhuma conversa aguardando atendimento.')
         for item in fila:
             with st.expander(item['session_id']):
-                st.json(item['handoff'])
+                resumo = item['handoff']
+                resumo['summary']['dados'] = slots_para_exibir(resumo['summary']['dados'])
+                st.json(resumo)
     else:
         if 'session_id' not in st.session_state:
             st.session_state['session_id'] = api.criar_sessao()['session_id']
