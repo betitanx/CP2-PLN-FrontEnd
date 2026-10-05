@@ -13,7 +13,7 @@ class Config:
             raise RuntimeError('Configure API_KEY no backend/.env antes de iniciar.')
         self.provider = os.getenv('LLM_PROVIDER', 'openrouter').strip()
         padroes = {
-            'openrouter': ('google/gemma-4-26b-a4b-it:free', 'https://openrouter.ai/api/v1'),
+            'openrouter': ('dots-studio/dots-3-note-preview:free', 'https://openrouter.ai/api/v1'),
             'ollama': ('qwen2.5:3b', 'http://localhost:11434'),
             'openai_compatible': ('', 'https://api.openai.com/v1'),
         }

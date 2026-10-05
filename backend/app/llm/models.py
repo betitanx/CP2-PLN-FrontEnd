@@ -1,7 +1,7 @@
 """Opções gratuitas conferidas no catálogo do OpenRouter em 04/10/2026."""
 
 MODELOS_GRATUITOS = {
-    'google/gemma-4-26b-a4b-it:free': 'Gemma 4 26B A4B · gratuito',
+    'dots-studio/dots-3-note-preview:free': 'Dots3-Note Preview · gratuito',
     'nvidia/nemotron-3-super-120b-a12b:free': 'Nemotron 3 Super · gratuito',
 }
 

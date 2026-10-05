@@ -58,7 +58,7 @@ class LLMClient:
                          'temperature': 0, 'max_tokens': limite, 'stream': False,
                          'response_format': {'type': 'json_object'}}
                 if self.config.provider == 'openrouter':
-                    if modelo in {'google/gemma-4-26b-a4b-it:free', 'nvidia/nemotron-3-super-120b-a12b:free'}:
+                    if modelo in {'dots-studio/dots-3-note-preview:free', 'nvidia/nemotron-3-super-120b-a12b:free'}:
                         corpo['reasoning'] = {'enabled': False}
                     # Seleciona endpoints compatíveis com JSON e preço zero.
                     corpo['provider'] = {'require_parameters': True,

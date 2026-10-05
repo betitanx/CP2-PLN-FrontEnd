@@ -26,7 +26,7 @@ Foram 18 conversas e 66 turnos, com Nemotron configurado e inferência externa r
 4. Inferência real: “Seria possível combinar uma visita de avaliação do veículo?” não corresponde à regra de agendamento. Nemotron interpretou agendar em 1.105,77 ms, e a tela pediu o nome.
 5. Escalonamento: após coletar Caio Exemplo, “Estou frustrado e quero reclamar” gerou sentimento negativo, acolhimento e transferência. A área Atendimento humano exibiu dados coletados, intenção, relato e ações.
 6. Painel de métricas: após o uso, mostrou três conversas, 33,3% de contenção, 6,2% de fallback, 33,3% de handoff, 5,3 mensagens por conversa e CSAT 5,0/5. Os valores correspondem ao banco da interface, incluindo uma conversa de teste anterior.
-7. Erros no serviço ativo: chave inválida retornou 401; sessão inexistente, 404; mensagem em branco, 422. O tratamento de 503, indisponibilidade e timeout na tela está coberto pelos testes automatizados; a chamada real anterior ao Gemma retornou 429 e foi convertida em erro amigável.
+7. Erros no serviço ativo: chave inválida retornou 401; sessão inexistente, 404; mensagem em branco, 422. O tratamento de 503, indisponibilidade e timeout na tela está coberto pelos testes automatizados; limite gratuito ou sobrecarga é convertido em erro amigável.
 
 Evidências desses exercícios: prints/teste_handoff.jpg e prints/teste_metricas.jpg. A captura de agendamento foi substituída pela verificação do formato brasileiro ao final deste documento. O banco da interface é separado do lote de métricas e inclui verificações anteriores. As métricas do relatório correspondem ao lote de 18 conversas, não a esses exercícios adicionais. As duas notas e latências não são estudos comparativos dos modelos.
 
@@ -44,7 +44,7 @@ Evidências desses exercícios: prints/teste_handoff.jpg e prints/teste_metricas
 
 Código, nomes/RMs, divisão prevista para revisão/apresentação, documentação e relatório real estão preparados. O repositório público é [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). O template exato da Aula 2 não foi fornecido para comparar formatação. Instalação em uma máquina limpa não foi repetida.
 
-Gemma permanece selecionável, mas teve indisponibilidade por HTTP 429 na amostra anterior. Nemotron é a opção efetivamente validada; disponibilidade futura depende do provedor gratuito. Não houve troca para modelo pago, repetição automática ou exposição de chave na entrega.
+Dots3-Note Preview e Nemotron são as opções selecionáveis e efetivamente validadas. Disponibilidade futura depende do provedor gratuito. Não houve troca para modelo pago, repetição automática ou exposição de chave na entrega.
 
 ## Roteiro para repetir T1–T8
 
@@ -86,6 +86,8 @@ O avaliador fez duas chamadas reais com Nemotron, para o agendamento e o handoff
 
 Na interface, uma terceira avaliação real foi acionada pelo botão Avaliar qualidade para um agendamento de seis turnos; a tela exibiu notas e justificativas. O painel independente, em outro processo na porta 8502, consultou o handoff e o histórico do mesmo identificador criado pela API. O painel de métricas exibiu o cruzamento de CSAT. As capturas correspondem ao banco da interface, distinto do banco isolado descrito acima.
 
-Nova tentativa com Gemma 4 A4B: a chamada exigia inferência para interpretar uma paráfrase de agendamento. A API retornou HTTP 503 em 580,04 ms, com a mensagem de limite gratuito ou sobrecarga do OpenRouter; a sessão permaneceu com zero turnos, sem perda de estado. O lote T1–T8 com Gemma não foi executado após essa falha. Não houve repetição automática nem troca para modelo pago.
+Substituição do modelo padrão: Dots3-Note Preview gratuito foi validado em nova instância HTTP com banco isolado. Passou pela paráfrase de agendamento, pelo lote T1–T8 mais dez conversas (18 sessões e 66 turnos) e por uma avaliação de qualidade de seis turnos com notas e justificativas. O lote teve zero erros do modelo e latência média geral de 118,81 ms; a classificação isolada pela API levou 1.376,03 ms. Resultados: [resultado_dots.json](resultado_dots.json). A captura do seletor foi atualizada para as duas opções atuais.
+
+Na interface, uma nova sessão nasceu com Dots3-Note como padrão. A mensagem “Seria possível combinar uma visita de avaliação do veículo?” gerou intenção agendar e pediu o nome, com latência do turno de 1.669 ms. O seletor ofereceu somente Dots3-Note e Nemotron. Captura: [modelos atuais](prints/modelos.png). Sessões locais que usavam a opção removida tiveram apenas sua escolha de modelo atualizada; histórico e slots foram preservados.
 
 Evidências: [resultado_diferenciais.json](resultado_diferenciais.json), [segunda lente](prints/segunda_lente.png), [avaliação por LLM](prints/avaliacao_llm.png) e [CSAT por resultado](prints/csat_contencao.png).

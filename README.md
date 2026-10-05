@@ -41,11 +41,11 @@ O frontend importa somente seus componentes e seu cliente HTTP. A aplicação gu
 
 Python 3.11 ou superior, FastAPI, Pydantic 2, SQLite, HTTPX, Streamlit e Requests. As versões diretas estão fixadas nos `requirements.txt` dos três projetos. Verificado localmente com Python 3.13.
 
-Provedor padrão: OpenRouter com `google/gemma-4-26b-a4b-it:free`, com acesso isolado em `backend/app/llm/client.py`. A plataforma também oferece `nvidia/nemotron-3-super-120b-a12b:free`, de outra família.
+Provedor padrão: OpenRouter com `dots-studio/dots-3-note-preview:free`, com acesso isolado em `backend/app/llm/client.py`. A plataforma também oferece `nvidia/nemotron-3-super-120b-a12b:free`, de outra família.
 
 1. Custo: os dois modelos selecionados têm preço zero no catálogo consultado em 04/10/2026; o adaptador exige preço zero de entrada, saída e requisição. É necessária uma conta com chave de API, acesso à internet e cota disponível.
-2. Latência observada: Nemotron respondeu a uma classificação real em **850,22 ms**; Gemma retornou HTTP 429 em uma tentativa. Uma amostra não caracteriza desempenho médio. O lote real T1–T8 mais dez conversas teve média de **83,41 ms por turno**, incluindo regras e chamadas ao LLM; não é média exclusiva de inferência.
-3. Português: o lote com Nemotron passou pelos cenários T1–T8, incluindo fallback em entradas vagas, com respostas de negócio em português e sem inventar serviços. A avaliação é dirigida e não demonstra qualidade geral. Para a avaliação final, registre o identificador selecionado, a latência e a qualidade observada; não extrapole resultados de um modelo para o outro.
+2. Latência observada: Dots3-Note respondeu a uma classificação real pela API em **1.376,03 ms**. Seu lote T1–T8 mais dez conversas teve média de **118,81 ms por turno**, incluindo regras e chamadas ao LLM; não é média exclusiva de inferência. O lote anterior com Nemotron teve **83,41 ms por turno**. As amostras não constituem comparação A/B controlada.
+3. Português: os lotes reais com Dots3-Note e Nemotron passaram por T1–T8, incluindo fallback em entradas vagas, com respostas de negócio em português. Dots3-Note também gerou avaliação de qualidade com justificativas em português. A amostra é dirigida e não demonstra qualidade geral dos modelos.
 
 LangChain não é obrigatório. Para um único modelo, uma chamada HTTP e uma janela deslizante, o cliente direto reduz dependências. O provedor pode ser trocado pelo `.env`, sem alterar regras, API ou frontend.
 
@@ -55,7 +55,7 @@ Crie uma chave na [área de chaves do OpenRouter](https://openrouter.ai/settings
 
 ```dotenv
 LLM_PROVIDER=openrouter
-LLM_MODEL=google/gemma-4-26b-a4b-it:free
+LLM_MODEL=dots-studio/dots-3-note-preview:free
 LLM_URL=https://openrouter.ai/api/v1
 OPEN_ROUTER_KEY=sua-chave-do-openrouter
 ```
@@ -72,10 +72,10 @@ Na área Conversa, abra a barra lateral, selecione **Modelo** e clique em **Apli
 
 | Opção | Identificador | Motivo da escolha |
 |---|---|---|
-| [Google Gemma 4 26B A4B](https://openrouter.ai/google/gemma-4-26b-a4b-it:free) | `google/gemma-4-26b-a4b-it:free` | Modelo MoE de uso geral, 3,8 bilhões de parâmetros ativos, compatível com JSON |
+| [Dots Studio Dots3-Note Preview](https://openrouter.ai/dots-studio/dots-3-note-preview:free) | `dots-studio/dots-3-note-preview:free` | Outra família, saída JSON e raciocínio opcional; validado no lote e no avaliador |
 | [NVIDIA Nemotron 3 Super](https://openrouter.ai/nvidia/nemotron-3-super-120b-a12b:free) | `nvidia/nemotron-3-super-120b-a12b:free` | Outra família e arquitetura híbrida, 12 bilhões de parâmetros ativos, compatível com JSON |
 
-Catálogo e preços conferidos em 04/10/2026. Isso não comprova disponibilidade da conta nem qualidade em português. Nos dois modelos, o cliente desativa raciocínio opcional para priorizar a classificação curta em JSON dentro do limite de 256 tokens. A validação Pydantic continua obrigatória.
+Catálogo e preços conferidos em 04/10/2026. Dots3-Note Preview tem expiração indicada no catálogo para 31/12/2026; confira a disponibilidade antes de futuras execuções. Isso não comprova disponibilidade da conta nem qualidade em português. Nos dois modelos, o cliente desativa raciocínio opcional para priorizar a classificação curta em JSON dentro do limite de 256 tokens. A validação Pydantic continua obrigatória.
 
 `GET /models` lista as opções permitidas; `PATCH /sessions/{session_id}/model` recebe `{"model":"IDENTIFICADOR"}` e retorna a sessão atualizada. Ambas as rotas exigem `X-API-Key`. Um identificador fora da lista recebe 422; sessão inexistente recebe 404. O log de cada turno registra o modelo selecionado, sem afirmar que regras determinísticas utilizaram inferência. `LLM_MODEL` define o padrão de novas sessões. Se houver outro modelo gratuito configurado, inclusive `openrouter/free`, ele permanece como opção adicional para compatibilidade. Com Ollama ou outro provedor, o seletor oferece apenas o modelo configurado.
 
@@ -85,7 +85,7 @@ Modelos gratuitos têm limites por minuto e por dia e podem ficar indisponíveis
 
 O projeto faz chamadas ao LLM somente para linguagem não coberta por regras, reduzindo o consumo da cota. Quando o OpenRouter retorna 429, a API devolve 503 com orientação para aguardar e o frontend mostra a mensagem. Não há repetição automática, compra de créditos ou troca automática para modelo pago. Uma conta com restrição de saldo pode receber 402 mesmo ao solicitar modelos gratuitos. As respostas não são garantidas apenas porque o catálogo lista o modelo.
 
-O OpenRouter permite a alternativa gratuita prevista no checkpoint; o professor precisará configurar sua própria chave gratuita ou utilizar a opção local. Não inclua a chave do grupo no repositório. A seleção foi testada automaticamente. O lote T1–T8 mais dez conversas foi executado com API e Nemotron reais; resultados e limites estão em docs/metricas.md e docs/resultado_modelo_real.json. Após implementar os diferenciais, Gemma foi tentado novamente e o serviço retornou 503 com mensagem de limite gratuito ou sobrecarga, preservando a sessão; não foi possível executar seu lote completo. A nova tentativa está em docs/resultado_diferenciais.json. Nemotron também foi usado em avaliações reais de qualidade por LLM.
+O OpenRouter permite a alternativa gratuita prevista no checkpoint; o professor precisará configurar sua própria chave gratuita ou utilizar a opção local. Não inclua a chave do grupo no repositório. Dots3-Note e Nemotron foram validados em lotes reais T1–T8 mais dez conversas, registrados em docs/resultado_dots.json e docs/resultado_modelo_real.json. Dots3-Note também passou por uma classificação por paráfrase e pela avaliação de qualidade por LLM. A disponibilidade futura depende da cota e do provedor; erro 429 é convertido em 503 e preserva a conversa.
 
 ## Alternativa com modelo local
 
@@ -276,7 +276,7 @@ Para verificar os erros HTTP e a tela com API desligada, no terminal do frontend
 Com a API e o modelo reais ativos, use um banco novo dedicado à avaliação em `DATABASE_PATH=data/execucao/avaliacao-real.sqlite3`, reinicie a API e execute:
 
 ```powershell
-.\.venv\Scripts\python.exe -X utf8 scripts\avaliar.py --modelo nvidia/nemotron-3-super-120b-a12b:free
+.\.venv\Scripts\python.exe -X utf8 scripts\avaliar.py --modelo dots-studio/dots-3-note-preview:free
 ```
 
 O script adiciona T1–T8 e dez conversas variadas e grava `docs/resultado_modelo_real.json`. Não o execute novamente no mesmo banco de avaliação, pois existem reservas fictícias já preenchidas. Atualize o relatório com esse resultado. Execute também o roteiro manual de [docs/testes_praticos.md](docs/testes_praticos.md): o script não substitui a verificação da interação pelo Streamlit e pelo Swagger.
@@ -302,8 +302,9 @@ O frontend recupera todo o histórico a cada atualização. O banco cresce com s
 | `atendente/` | Segunda aplicação independente para consultar a fila e o histórico |
 | [Ficha do bot](docs/ficha_do_bot.md) | Persona, capacidades, limites e exemplos de conversa |
 | [Relatório de métricas](docs/metricas.md) | Resultados reais, análise e melhoria proposta |
-| [Dados da avaliação](docs/resultado_modelo_real.json) | T1–T8 e dez conversas, com histórico fictício e estado final |
-| [Diferenciais](docs/resultado_diferenciais.json) | Reinício real, CSAT por resultado, avaliações por LLM e nova tentativa com Gemma |
+| [Avaliação com Nemotron](docs/resultado_modelo_real.json) | T1–T8 e dez conversas, com histórico fictício e estado final |
+| [Avaliação com Dots3-Note](docs/resultado_dots.json) | Novo lote de 18 conversas, classificação real e avaliação por LLM |
+| [Diferenciais](docs/resultado_diferenciais.json) | Reinício real, CSAT por resultado e avaliações por LLM |
 | [Testes práticos](docs/testes_praticos.md) | Resultados e roteiro para repetir os cenários |
 | `docs/prints/` | Chat, Swagger, seleção de modelos, slots, handoff e métricas |
 

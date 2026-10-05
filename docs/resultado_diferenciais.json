@@ -204,14 +204,5 @@
         }
       ]
     }
-  ],
-  "gemma": {
-    "modelo": "google/gemma-4-26b-a4b-it:free",
-    "status_http": 503,
-    "latencia_ms": 580.04,
-    "resposta": {
-      "detail": "O limite de uso gratuito do OpenRouter foi atingido ou o provedor está sobrecarregado. Aguarde antes de tentar novamente; a conversa foi preservada."
-    },
-    "sessao_preservada": true
-  }
+  ]
 }

@@ -58,7 +58,7 @@ def test_seletor_aplica_modelo_por_http_e_preserva_identificador(monkeypatch):
     import json
     from pathlib import Path
     from streamlit.testing.v1 import AppTest
-    ids = ['google/gemma-4-26b-a4b-it:free', 'nvidia/nemotron-3-super-120b-a12b:free']
+    ids = ['dots-studio/dots-3-note-preview:free', 'nvidia/nemotron-3-super-120b-a12b:free']
     sessao = {'session_id': 'ficticia', 'model': ids[0], 'history': [],
               'slots': {}, 'last_turn': None, 'status': 'ativa', 'turn': 0,
               'handoff': {'active': False}}
@@ -67,7 +67,7 @@ def test_seletor_aplica_modelo_por_http_e_preserva_identificador(monkeypatch):
         chamadas.append((metodo, url, kwargs.get('json')))
         if metodo == 'PATCH':
             sessao['model'] = kwargs['json']['model']
-        dados = ([{'id': ids[0], 'name': 'Gemma'}, {'id': ids[1], 'name': 'Nemotron'}]
+        dados = ([{'id': ids[0], 'name': 'Dots3'}, {'id': ids[1], 'name': 'Nemotron'}]
                  if url.endswith('/models') else sessao)
         if url.endswith('/avaliacao'):
             dados = None
