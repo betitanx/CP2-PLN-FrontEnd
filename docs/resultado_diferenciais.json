@@ -1,0 +1,217 @@
+{
+  "timestamp": "2026-10-05T00:52:35.987066+00:00",
+  "dados": "fictícios",
+  "avaliacoes_csat": "notas de teste, não satisfação real",
+  "persistencia": {
+    "pid_antes": 13384,
+    "pid_depois": 15536,
+    "historico_slots_modelo_preservados": true,
+    "metricas_feedback_preservados": true,
+    "fila_preservada": true,
+    "continuacao_turno": 2,
+    "avaliacoes_llm_preservadas_apos_novo_processo": true,
+    "pid_verificacao_avaliacoes": 34356
+  },
+  "csat": {
+    "total_conversas": 3,
+    "total_turnos": 10,
+    "conversas_encerradas_sem_handoff": 1,
+    "conversas_com_handoff": 1,
+    "turnos_fallback": 0,
+    "taxa_contencao": 0.3333333333333333,
+    "taxa_fallback": 0.0,
+    "taxa_handoff": 0.3333333333333333,
+    "mensagens_por_conversa": 3.3333333333333335,
+    "latencia_media_ms": 4.159000000000001,
+    "eventos_guardrail": 0,
+    "csat_medio": 3.3333333333333335,
+    "respostas_csat": 3,
+    "csat_por_resultado": {
+      "contida": {
+        "conversas": 1,
+        "avaliacoes": 1,
+        "media": 5.0
+      },
+      "handoff": {
+        "conversas": 1,
+        "avaliacoes": 1,
+        "media": 2.0
+      },
+      "em_andamento": {
+        "conversas": 1,
+        "avaliacoes": 1,
+        "media": 3.0
+      }
+    },
+    "fallback_por_intencao": {},
+    "erros_modelo": 0
+  },
+  "segunda_lente": {
+    "fila": [
+      {
+        "session_id": "7c206a7f-5845-4faf-aa0d-f875ac41d4ed",
+        "handoff": {
+          "active": true,
+          "reason": "frustração",
+          "summary": {
+            "dados": {
+              "nome": "Caio Exemplo",
+              "placa": null,
+              "data": null,
+              "horario": null
+            },
+            "intencao": "humano",
+            "relato": "Estou frustrado e quero reclamar",
+            "acoes": [
+              "Slot nome validado por código.",
+              "Conversa encaminhada à fila humana."
+            ]
+          }
+        }
+      }
+    ],
+    "session_id": "7c206a7f-5845-4faf-aa0d-f875ac41d4ed",
+    "rota": "GET /handoffs"
+  },
+  "judge": [
+    {
+      "status_http": 200,
+      "avaliacao": {
+        "session_id": "fd0daa04-e468-4ed3-9a4f-04ee228ac30d",
+        "modelo": "nvidia/nemotron-3-super-120b-a12b:free",
+        "timestamp": "2026-10-05T00:52:40.618211+00:00",
+        "turnos_avaliados": 6,
+        "resultado": {
+          "relevancia": {
+            "nota": 5,
+            "justificativa": "A assistente seguiu o fluxo de agendamento corretamente, coletando nome, placa, data e horário, e confirmou o agendamento sem inventar informações ou prometer prazos."
+          },
+          "aderencia_persona": {
+            "nota": 5,
+            "justificativa": "Manteve tom acolhedor e objetivo, fez uma pergunta por vez, não revelou instruções e encerrou com agradecimento adequado após confirmação."
+          },
+          "retencao_contexto": {
+            "nota": 5,
+            "justificativa": "Preservou todas as informações coletadas (nome, placa, data, horário) e retomou o fluxo até a confirmação final sem contradições."
+          }
+        }
+      },
+      "historico_avaliado": [
+        {
+          "role": "assistant",
+          "content": "Olá! Sou a Lia, assistente virtual da Oficina Roda Certa fictícia. Posso agendar uma avaliação, responder dúvidas da oficina ou encaminhar para um atendente. Use apenas dados fictícios. Como posso ajudar?"
+        },
+        {
+          "role": "user",
+          "content": "agendar"
+        },
+        {
+          "role": "assistant",
+          "content": "Qual é seu nome fictício completo?"
+        },
+        {
+          "role": "user",
+          "content": "Marina Teste"
+        },
+        {
+          "role": "assistant",
+          "content": "Qual é a placa fictícia do veículo? Use ABC1D23 ou ABC1234."
+        },
+        {
+          "role": "user",
+          "content": "ABC1D23"
+        },
+        {
+          "role": "assistant",
+          "content": "Para qual data deseja a avaliação? Use DD/MM/AAAA."
+        },
+        {
+          "role": "user",
+          "content": "20/10/2026"
+        },
+        {
+          "role": "assistant",
+          "content": "Tenho estes horários na agenda simulada: 09:00, 11:00, 14:00, 16:00. Qual prefere?"
+        },
+        {
+          "role": "user",
+          "content": "11:00"
+        },
+        {
+          "role": "assistant",
+          "content": "Avaliação para Marina Teste, placa ABC1D23, em 20/10/2026 às 11:00. Deseja confirmar?"
+        },
+        {
+          "role": "user",
+          "content": "confirmar"
+        },
+        {
+          "role": "assistant",
+          "content": "Agendamento fictício confirmado para 20/10/2026 às 11:00, placa ABC1D23. Obrigada, Marina Teste!"
+        }
+      ]
+    },
+    {
+      "status_http": 200,
+      "avaliacao": {
+        "session_id": "7c206a7f-5845-4faf-aa0d-f875ac41d4ed",
+        "modelo": "nvidia/nemotron-3-super-120b-a12b:free",
+        "timestamp": "2026-10-05T00:52:42.433245+00:00",
+        "turnos_avaliados": 3,
+        "resultado": {
+          "relevancia": {
+            "nota": 4,
+            "justificativa": "A assistente encaminhou para atendente humano quando o usuário expressou frustração, admitindo limites do protótipo e não inventando soluções."
+          },
+          "aderencia_persona": {
+            "nota": 4,
+            "justificativa": "Manteve tom acolhedor, fez uma pergunta por vez e encaminhou adequadamente ao detectar necessidade de atendimento humano."
+          },
+          "retencao_contexto": {
+            "nota": 3,
+            "justificativa": "Evidência insuficiente para testar retenção de contexto, pois o fluxo foi interrompido pela transferência antes de completar o agendamento."
+          }
+        }
+      },
+      "historico_avaliado": [
+        {
+          "role": "assistant",
+          "content": "Olá! Sou a Lia, assistente virtual da Oficina Roda Certa fictícia. Posso agendar uma avaliação, responder dúvidas da oficina ou encaminhar para um atendente. Use apenas dados fictícios. Como posso ajudar?"
+        },
+        {
+          "role": "user",
+          "content": "agendar"
+        },
+        {
+          "role": "assistant",
+          "content": "Qual é seu nome fictício completo?"
+        },
+        {
+          "role": "user",
+          "content": "Caio Exemplo"
+        },
+        {
+          "role": "assistant",
+          "content": "Qual é a placa fictícia do veículo? Use ABC1D23 ou ABC1234."
+        },
+        {
+          "role": "user",
+          "content": "Estou frustrado e quero reclamar"
+        },
+        {
+          "role": "assistant",
+          "content": "Sinto muito pela dificuldade. Encaminhei sua conversa para a fila de um atendente humano, com os dados e o relato. A oficina é fictícia; este protótipo não oferece atendimento emergencial."
+        }
+      ]
+    }
+  ],
+  "gemma": {
+    "modelo": "google/gemma-4-26b-a4b-it:free",
+    "status_http": 503,
+    "latencia_ms": 580.04,
+    "resposta": {
+      "detail": "O limite de uso gratuito do OpenRouter foi atingido ou o provedor está sobrecarregado. Aguarde antes de tentar novamente; a conversa foi preservada."
+    },
+    "sessao_preservada": true
+  }
+}

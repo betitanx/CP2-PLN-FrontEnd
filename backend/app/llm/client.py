@@ -36,6 +36,9 @@ class LLMClient:
             return False
 
     def analisar(self, mensagens, model=None):
+        return self.gerar_json(mensagens, model, Analise)
+
+    def gerar_json(self, mensagens, model=None, esquema=Analise, limite=256):
         modelo = model or self.config.model
         if self.config.provider == 'openrouter' and modelo != 'openrouter/free' and not modelo.endswith(':free'):
             raise ModeloIndisponivel('Selecione um modelo gratuito do OpenRouter.')
@@ -45,14 +48,14 @@ class LLMClient:
             if self.config.provider == 'ollama':
                 r = httpx.post(self.config.url + '/api/chat', json={
                     'model': modelo, 'messages': mensagens,
-                    'stream': False, 'format': Analise.model_json_schema(),
-                    'options': {'temperature': 0, 'num_predict': 256},
+                    'stream': False, 'format': esquema.model_json_schema(),
+                    'options': {'temperature': 0, 'num_predict': limite},
                 }, timeout=self.config.timeout)
                 r.raise_for_status()
                 conteudo = r.json()['message']['content']
             else:
                 corpo = {'model': modelo, 'messages': mensagens,
-                         'temperature': 0, 'max_tokens': 256, 'stream': False,
+                         'temperature': 0, 'max_tokens': limite, 'stream': False,
                          'response_format': {'type': 'json_object'}}
                 if self.config.provider == 'openrouter':
                     if modelo in {'google/gemma-4-26b-a4b-it:free', 'nvidia/nemotron-3-super-120b-a12b:free'}:
@@ -65,7 +68,7 @@ class LLMClient:
                 }, json=corpo, timeout=self.config.timeout)
                 r.raise_for_status()
                 conteudo = r.json()['choices'][0]['message']['content']
-            return Analise.model_validate(json.loads(conteudo)).model_dump()
+            return esquema.model_validate(json.loads(conteudo)).model_dump()
         except httpx.HTTPStatusError as erro:
             if self.config.provider == 'openrouter':
                 mensagens_erro = {

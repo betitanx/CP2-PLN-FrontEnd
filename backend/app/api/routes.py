@@ -5,6 +5,7 @@ from app.schemas import ChatIn, ChatOut, SessionOut, FeedbackIn, HealthOut, Metr
 from app.analytics.metrics import calcular_metricas
 from app.llm.client import ModeloIndisponivel
 from app.llm.models import opcoes
+from app.analytics.judge import avaliar_conversa, AvaliacaoOut
 
 chave = APIKeyHeader(name='X-API-Key', auto_error=False)
 
@@ -98,3 +99,30 @@ def feedback(dados: FeedbackIn, request: Request):
 @router.get('/handoffs', response_model=list[HandoffOut], summary='Consultar fila humana', description='Disponibiliza dados coletados, intenção, relato e ações já tomadas para uma segunda lente.')
 def handoffs(request: Request):
     return request.app.state.bot.store.handoffs()
+
+
+@router.get('/sessions/{session_id}/avaliacao', response_model=AvaliacaoOut | None,
+            summary='Consultar última avaliação por LLM')
+def obter_avaliacao(session_id: str, request: Request):
+    try:
+        return request.app.state.bot.store.avaliacao(session_id)
+    except KeyError:
+        raise HTTPException(404, 'Conversa não encontrada.')
+
+
+@router.post('/sessions/{session_id}/avaliacao', response_model=AvaliacaoOut,
+             summary='Avaliar qualidade por LLM',
+             description='Avalia o histórico registrado no servidor. Não altera conversa ou métricas de atendimento. Notas automáticas exigem revisão humana; usa o modelo selecionado na sessão.')
+def avaliar(session_id: str, request: Request):
+    bot = request.app.state.bot
+    try:
+        sessao = bot.store.obter(session_id)
+        resultado = avaliar_conversa(bot, sessao)
+        bot.store.salvar_avaliacao(session_id, resultado)
+        return resultado
+    except KeyError:
+        raise HTTPException(404, 'Conversa não encontrada.')
+    except ModeloIndisponivel as erro:
+        raise HTTPException(503, str(erro))
+    except ValueError as erro:
+        raise HTTPException(422, str(erro))

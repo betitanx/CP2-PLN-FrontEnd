@@ -66,7 +66,7 @@ Verifique também chave errada (401), sessão desconhecida (404), mensagem vazia
 
 ## Testes automatizados
 
-39 testes de backend e nove de frontend passaram na cópia preparada para publicação. Os testes usam SQLite e rotas reais e substituem somente o provedor externo. A avaliação de 18 conversas usou API HTTP e Nemotron reais quando necessária inferência.
+43 testes de backend, dez de frontend e dois do painel independente passaram na cópia preparada para publicação: 55 no total. Os testes usam SQLite e rotas reais e substituem somente o provedor externo. A avaliação de 18 conversas usou API HTTP e Nemotron reais quando necessária inferência.
 
 ## Correção do formato de datas
 
@@ -75,3 +75,17 @@ O lote de 18 conversas e 66 turnos foi repetido com entradas DD/MM/AAAA e o mode
 A regressão automatizada verifica confirmação e memória em português, rejeição de 31/02/2026, dia zero, mês 13 e formato incompleto, preservação dos slots, feriado em 12/10/2026 e uso da mesma reserva por entradas brasileiras ou ISO. O frontend formata a data sem modificar o estado retornado pela API. Os exercícios e capturas iniciais descritos acima antecedem esta correção.
 
 A interface foi exercitada após a correção: 31/02/2026 foi recusada; 20/10/2026 foi aceita, exibida no raio-X e na confirmação do agendamento às 11:00, preservando nome e placa. A captura atual está em prints/teste_data_brasileira.jpg.
+
+## Validação dos diferenciais
+
+Em 04/10/2026, foi usado outro banco isolado para três conversas fictícias: uma contida, uma transferida e uma em andamento. Receberam notas de teste 5, 2 e 3. A API retornou CSAT separado por resultado, com uma avaliação em cada grupo; a taxa de contenção foi 33,33%. Esta é uma verificação funcional, sem conclusões sobre satisfação real.
+
+O processo da API foi encerrado e outro processo foi iniciado com o mesmo banco. Os identificadores dos processos eram distintos. As três sessões retornaram os mesmos históricos, slots, modelos e estados; métricas, notas e fila também coincidiram. A conversa em andamento continuou no turno 2 após o reinício. O teste automatizado verifica adicionalmente a persistência da avaliação por LLM após recriar a API e sua remoção ao apagar a sessão.
+
+O avaliador fez duas chamadas reais com Nemotron, para o agendamento e o handoff. Ambas retornaram HTTP 200 e resultados válidos nos três critérios. As avaliações foram salvas e recuperadas pela API, inclusive após iniciar outro processo, sem modificar histórico ou métricas de atendimento. Os históricos avaliados foram anexados às evidências. As notas automáticas exigem revisão humana e não equivalem ao CSAT.
+
+Na interface, uma terceira avaliação real foi acionada pelo botão Avaliar qualidade para um agendamento de seis turnos; a tela exibiu notas e justificativas. O painel independente, em outro processo na porta 8502, consultou o handoff e o histórico do mesmo identificador criado pela API. O painel de métricas exibiu o cruzamento de CSAT. As capturas correspondem ao banco da interface, distinto do banco isolado descrito acima.
+
+Nova tentativa com Gemma 4 A4B: a chamada exigia inferência para interpretar uma paráfrase de agendamento. A API retornou HTTP 503 em 580,04 ms, com a mensagem de limite gratuito ou sobrecarga do OpenRouter; a sessão permaneceu com zero turnos, sem perda de estado. O lote T1–T8 com Gemma não foi executado após essa falha. Não houve repetição automática nem troca para modelo pago.
+
+Evidências: [resultado_diferenciais.json](resultado_diferenciais.json), [segunda lente](prints/segunda_lente.png), [avaliação por LLM](prints/avaliacao_llm.png) e [CSAT por resultado](prints/csat_contencao.png).

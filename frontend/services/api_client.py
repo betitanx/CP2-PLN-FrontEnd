@@ -76,3 +76,9 @@ class APIClient:
 
     def handoffs(self):
         return self.requisitar('GET','/handoffs')
+
+    def avaliar(self, sid):
+        return self.requisitar('POST', f'/sessions/{sid}/avaliacao')
+
+    def avaliacao(self, sid):
+        return self.requisitar('GET', f'/sessions/{sid}/avaliacao')

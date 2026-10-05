@@ -40,7 +40,28 @@ def metricas(dados):
     a.metric('Conversas', dados['total_conversas'])
     b.metric('Latência média', f"{dados['latencia_media_ms']:.0f} ms")
     c.metric('CSAT', f"{dados['csat_medio']:.1f}/5" if dados['csat_medio'] is not None else 'Sem avaliações')
+    st.subheader('CSAT por resultado da conversa')
+    nomes = {'contida': 'Encerrada sem handoff', 'handoff': 'Transferida para humano',
+             'em_andamento': 'Em andamento'}
+    st.dataframe([{'Resultado': nomes[k], 'Conversas': v['conversas'],
+                   'Avaliações': v['avaliacoes'],
+                   'CSAT': f"{v['media']:.1f}/5" if v['media'] is not None else 'Sem avaliações'}
+                  for k, v in dados['csat_por_resultado'].items()], hide_index=True,
+                 use_container_width=True)
     if dados['fallback_por_intencao']:
         st.bar_chart(dados['fallback_por_intencao'])
     with st.expander('Dados da API'):
         st.json(dados)
+
+
+def avaliacao_llm(dados, turno):
+    st.caption('Avaliação automática; requer revisão humana e não equivale ao CSAT.')
+    st.write('**Modelo:**', dados['modelo'])
+    st.write('**Turnos avaliados:**', dados['turnos_avaliados'])
+    if dados['turnos_avaliados'] != turno:
+        st.warning('A conversa mudou após esta avaliação. Avalie novamente para incluir os novos turnos.')
+    nomes = {'relevancia': 'Relevância', 'aderencia_persona': 'Aderência à persona',
+             'retencao_contexto': 'Retenção de contexto'}
+    for criterio, valor in dados['resultado'].items():
+        st.write(f"**{nomes[criterio]}: {valor['nota']}/5**")
+        st.write(valor['justificativa'])

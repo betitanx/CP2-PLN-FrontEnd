@@ -18,6 +18,7 @@ class Store:
                 CREATE TABLE IF NOT EXISTS feedback (session_id TEXT PRIMARY KEY, rating INTEGER NOT NULL);
                 CREATE TABLE IF NOT EXISTS bookings (data TEXT, horario TEXT, session_id TEXT UNIQUE, PRIMARY KEY(data, horario));
                 CREATE TABLE IF NOT EXISTS errors (id INTEGER PRIMARY KEY, session_id TEXT, timestamp TEXT, kind TEXT);
+                CREATE TABLE IF NOT EXISTS evaluations (session_id TEXT PRIMARY KEY, payload TEXT NOT NULL);
             ''')
 
     @contextmanager
@@ -70,7 +71,7 @@ class Store:
     def apagar(self, sid):
         self.obter(sid)
         with self.conexao() as db:
-            for tabela in ['turns', 'feedback', 'bookings', 'errors']:
+            for tabela in ['turns', 'feedback', 'bookings', 'errors', 'evaluations']:
                 db.execute(f'DELETE FROM {tabela} WHERE session_id=?', (sid,))
             db.execute('DELETE FROM sessions WHERE id=?', (sid,))
 
@@ -87,3 +88,16 @@ class Store:
         with self.conexao() as db:
             sessoes = [json.loads(r[0]) for r in db.execute('SELECT payload FROM sessions')]
         return [{'session_id': s['session_id'], 'handoff': s['handoff']} for s in sessoes if s['handoff']['active']]
+
+    def salvar_avaliacao(self, sid, resultado):
+        with self.conexao() as db:
+            if not db.execute('SELECT 1 FROM sessions WHERE id=?', (sid,)).fetchone():
+                raise KeyError(sid)
+            db.execute('INSERT INTO evaluations VALUES (?,?) ON CONFLICT(session_id) DO UPDATE SET payload=excluded.payload',
+                       (sid, json.dumps(resultado, ensure_ascii=False)))
+
+    def avaliacao(self, sid):
+        self.obter(sid)
+        with self.conexao() as db:
+            row = db.execute('SELECT payload FROM evaluations WHERE session_id=?', (sid,)).fetchone()
+        return json.loads(row[0]) if row else None

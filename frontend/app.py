@@ -1,6 +1,6 @@
 import streamlit as st
 from services.api_client import APIClient, ErroAPI
-from components.panels import raio_x, metricas, slots_para_exibir
+from components.panels import raio_x, metricas, slots_para_exibir, avaliacao_llm
 
 st.set_page_config(page_title='Prosa | Roda Certa', page_icon='💬', layout='wide')
 api = APIClient()
@@ -51,6 +51,13 @@ try:
         chat, painel = st.columns([2, 1], gap='large')
         with painel:
             raio_x(sessao)
+            with st.expander('Avaliação por LLM'):
+                julgamento = api.avaliacao(sessao['session_id'])
+                if st.button('Avaliar qualidade', disabled=sessao['turn'] == 0):
+                    with st.spinner('Avaliando conversa…'):
+                        julgamento = api.avaliar(sessao['session_id'])
+                if julgamento:
+                    avaliacao_llm(julgamento, sessao['turn'])
             with st.form('avaliacao'):
                 nota = st.select_slider('Avaliação', options=[1,2,3,4,5], value=5)
                 if st.form_submit_button('Enviar avaliação'):

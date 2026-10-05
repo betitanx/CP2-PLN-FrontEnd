@@ -92,6 +92,12 @@ class HealthOut(BaseModel):
     model_available: bool
 
 
+class GrupoCSAT(BaseModel):
+    conversas: int
+    avaliacoes: int
+    media: float | None
+
+
 class MetricsOut(BaseModel):
     total_conversas: int
     total_turnos: int
@@ -106,6 +112,7 @@ class MetricsOut(BaseModel):
     eventos_guardrail: int
     csat_medio: float | None
     respostas_csat: int
+    csat_por_resultado: dict[str, GrupoCSAT]
     fallback_por_intencao: dict[str, int]
     erros_modelo: int
 

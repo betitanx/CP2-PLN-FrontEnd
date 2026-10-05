@@ -24,11 +24,14 @@ flowchart LR
     F --> C[Cliente HTTP único]
     C -->|HTTP e X-API-Key| A[FastAPI porta 8000]
     D[Swagger ou outra lente] -->|HTTP e X-API-Key| A
+    H[Painel do atendente porta 8502] -->|HTTP e X-API-Key| A
     A --> O[Orquestrador]
     O --> N[Intenção sentimento guardrails]
     O --> S[SQLite sessões slots reservas e logs]
     O --> Q[FAQ e agenda em JSON]
     O --> L[Cliente de modelo]
+    A --> J[Avaliador de conversas por LLM]
+    J --> L
     L --> M[OpenRouter gratuito ou Ollama]
 ```
 
@@ -36,7 +39,7 @@ O frontend importa somente seus componentes e seu cliente HTTP. A aplicação gu
 
 ## Tecnologias e modelo
 
-Python 3.11 ou superior, FastAPI, Pydantic 2, SQLite, HTTPX, Streamlit e Requests. As versões diretas estão fixadas nos dois `requirements.txt`. Verificado localmente com Python 3.13.
+Python 3.11 ou superior, FastAPI, Pydantic 2, SQLite, HTTPX, Streamlit e Requests. As versões diretas estão fixadas nos `requirements.txt` dos três projetos. Verificado localmente com Python 3.13.
 
 Provedor padrão: OpenRouter com `google/gemma-4-26b-a4b-it:free`, com acesso isolado em `backend/app/llm/client.py`. A plataforma também oferece `nvidia/nemotron-3-super-120b-a12b:free`, de outra família.
 
@@ -82,7 +85,7 @@ Modelos gratuitos têm limites por minuto e por dia e podem ficar indisponíveis
 
 O projeto faz chamadas ao LLM somente para linguagem não coberta por regras, reduzindo o consumo da cota. Quando o OpenRouter retorna 429, a API devolve 503 com orientação para aguardar e o frontend mostra a mensagem. Não há repetição automática, compra de créditos ou troca automática para modelo pago. Uma conta com restrição de saldo pode receber 402 mesmo ao solicitar modelos gratuitos. As respostas não são garantidas apenas porque o catálogo lista o modelo.
 
-O OpenRouter permite a alternativa gratuita prevista no checkpoint; o professor precisará configurar sua própria chave gratuita ou utilizar a opção local. Não inclua a chave do grupo no repositório. A seleção foi testada automaticamente, e duas chamadas reais foram feitas: Nemotron identificou agendamento; Gemma retornou 429. O lote T1–T8 mais dez conversas foi executado com API e Nemotron reais; resultados e limites estão em docs/metricas.md e docs/resultado_modelo_real.json. Gemma ainda não foi avaliado devido ao erro 429.
+O OpenRouter permite a alternativa gratuita prevista no checkpoint; o professor precisará configurar sua própria chave gratuita ou utilizar a opção local. Não inclua a chave do grupo no repositório. A seleção foi testada automaticamente. O lote T1–T8 mais dez conversas foi executado com API e Nemotron reais; resultados e limites estão em docs/metricas.md e docs/resultado_modelo_real.json. Após implementar os diferenciais, Gemma foi tentado novamente e o serviço retornou 503 com mensagem de limite gratuito ou sobrecarga, preservando a sessão; não foi possível executar seu lote completo. A nova tentativa está em docs/resultado_diferenciais.json. Nemotron também foi usado em avaliações reais de qualidade por LLM.
 
 ## Alternativa com modelo local
 
@@ -204,6 +207,53 @@ A conversa aceita e mostra datas em **DD/MM/AAAA**, por exemplo `06/10/2026`. A 
 
 O SQLite persiste histórico e slots por `session_id`, inclusive após reiniciar a API. Cada chamada ao modelo remonta `system prompt + contexto confiável de slots/FAQ + últimas 2N falas + nova mensagem`. `CONTEXT_TURNS=8` mantém até oito pares recentes para limitar tokens e custo, sem remover o histórico completo do servidor. Os slots e os horários sugeridos ficam no contexto confiável mesmo após saírem da janela. Não há sumarização automática neste protótipo.
 
+## Diferenciais implementados
+
+### CSAT e contenção
+
+`POST /feedback` recebe uma nota inteira de 1 a 5; outra nota da mesma sessão substitui a anterior. `GET /metrics` apresenta `csat_por_resultado`: conversas encerradas sem handoff, transferidas e em andamento, com quantidade de conversas, quantidade de avaliações e média de cada grupo. Sessões sem turnos não entram nessa análise. A área Métricas mostra a tabela. Contenção alta não implica satisfação alta; a média das avaliações também depende de quem respondeu. As notas das evidências são testes fictícios, não opiniões de clientes.
+
+### Segunda lente: painel independente
+
+O projeto `atendente/` tem dependências, configuração, cliente HTTP e processo próprios. Consulta `GET /handoffs` e, por solicitação do atendente, `GET /sessions/{session_id}`. Não importa o frontend nem o backend, não chama o LLM e não mantém memória conversacional. Esta aplicação usa Streamlit em outra porta; independência não exige outro framework.
+
+Abra um terceiro terminal na raiz do repositório:
+
+```powershell
+cd atendente
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Preencha `API_KEY` no `atendente/.env` com a mesma chave local do backend e confira `API_URL`. Inicie:
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.port 8502
+```
+
+Abra `http://localhost:8502`. Gere um handoff no chat, clique em **Atualizar fila** no painel e confira o mesmo identificador, dados, relato e histórico. O painel é de consulta; não envia respostas humanas.
+
+### Avaliação das conversas por LLM
+
+No chat, abra **Avaliação por LLM** e clique em **Avaliar qualidade**. A tela chama `POST /sessions/{session_id}/avaliacao`; o backend lê o histórico persistido e o modelo escolhido na sessão atribui notas de 1 a 5 para relevância, aderência à persona e retenção de contexto, com justificativas. `GET` na mesma rota recupera o último resultado salvo no SQLite. A tela avisa quando existem turnos posteriores à avaliação.
+
+O prompt está em `backend/prompts/avaliador.md`, e o resultado passa por validação Pydantic. Abrir a tela não executa inferência; o botão faz uma chamada gratuita, sem repetição automática. Conversas sem turnos ou com registro maior que 30 mil caracteres recebem 422. Falha do provedor recebe 503 e preserva o último resultado. Apagar a sessão também apaga a avaliação. As notas não alteram CSAT, contenção ou estado do diálogo.
+
+O avaliador recebe a persona e a FAQ como referências. É uma avaliação automática e pode errar, inclusive ao avaliar saídas do mesmo modelo; exige revisão humana. Quando a memória não foi exercitada, o prompt pede nota 3 com evidência insuficiente. Use apenas históricos fictícios.
+
+Para avaliar um lote que ainda exista no banco do serviço, no terminal do backend:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\avaliar_qualidade.py --entrada ..\docs\resultado_modelo_real.json --limite 3
+```
+
+Os identificadores do JSON devem existir no banco configurado em `DATABASE_PATH`. O script interrompe no primeiro erro e registra o resultado em `docs/avaliacao_qualidade.json`.
+
+### Evidência de continuidade no SQLite
+
+Foi verificada uma parada e inicialização de processos reais da API sobre o mesmo banco: três sessões conservaram histórico, slots, modelo, fila humana, métricas e feedback; uma conversa continuou no turno seguinte. Os resultados estão em [docs/resultado_diferenciais.json](docs/resultado_diferenciais.json). Para repetir: anote o `session_id`, consulte a sessão e `/metrics`, pare a API com Ctrl+C, inicie com o mesmo `DATABASE_PATH` e `API_KEY`, consulte novamente e envie a próxima mensagem. Não troque o banco nem crie outra sessão. Fechar o navegador não faz o frontend recuperar automaticamente o identificador antigo.
+
 ## Testes e métricas
 
 No terminal do backend:
@@ -249,9 +299,11 @@ O frontend recupera todo o histórico a cada atualização. O banco cresce com s
 |---|---|
 | `backend/` | API, bot, prompt, FAQ, agenda, configuração, testes e script de avaliação |
 | `frontend/` | Interface, cliente HTTP, configuração e testes |
+| `atendente/` | Segunda aplicação independente para consultar a fila e o histórico |
 | [Ficha do bot](docs/ficha_do_bot.md) | Persona, capacidades, limites e exemplos de conversa |
 | [Relatório de métricas](docs/metricas.md) | Resultados reais, análise e melhoria proposta |
 | [Dados da avaliação](docs/resultado_modelo_real.json) | T1–T8 e dez conversas, com histórico fictício e estado final |
+| [Diferenciais](docs/resultado_diferenciais.json) | Reinício real, CSAT por resultado, avaliações por LLM e nova tentativa com Gemma |
 | [Testes práticos](docs/testes_praticos.md) | Resultados e roteiro para repetir os cenários |
 | `docs/prints/` | Chat, Swagger, seleção de modelos, slots, handoff e métricas |
 
