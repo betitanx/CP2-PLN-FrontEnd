@@ -14,7 +14,7 @@ Divisão prevista para a revisão e apresentação da entrega:
 | Bernardo Braga Perobeli | 562468 | Conferir os testes e demonstrar a integração |
 | Felipe Stefani Honorato | 563380 | Revisar a documentação e apresentar as métricas |
 
-Repositório GitHub público: [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). Vídeo não listado: **a gravar e publicar pelo grupo**. O checkpoint fixa o prazo em 04/10/2026 às 23h59.
+Repositório GitHub público: [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). O checkpoint fixa o prazo em 04/10/2026 às 23h59.
 
 ## Arquitetura
 
@@ -48,7 +48,7 @@ LangChain não é obrigatório. Para um único modelo, uma chamada HTTP e uma ja
 
 ## Configurar o OpenRouter gratuito
 
-Crie uma chave na [área de chaves do OpenRouter](https://openrouter.ai/settings/keys) e preencha `OPEN_ROUTER_KEY` no `backend/.env`, sem compartilhar a chave em código, prints ou vídeo:
+Crie uma chave na [área de chaves do OpenRouter](https://openrouter.ai/settings/keys) e preencha `OPEN_ROUTER_KEY` no `backend/.env`, sem compartilhar a chave em código ou prints:
 
 ```dotenv
 LLM_PROVIDER=openrouter
@@ -163,7 +163,7 @@ LLM_API_KEY=sua-chave-apenas-no-env
 
 O adaptador usa `/chat/completions` com JSON validado por Pydantic. Escolha um modelo que aceite JSON, temperatura e `max_tokens`. Não prometa compatibilidade com todos os modelos ou provedores. A alternativa não foi testada com credenciais reais.
 
-A API OpenAI cobra por uso conforme [a tabela oficial](https://developers.openai.com/api/docs/pricing). Não suponha camada gratuita ou acesso incluído na assinatura do ChatGPT. O enunciado admite APIs com camada gratuita e exige execução sem custo para o professor; use OpenRouter com modelos gratuitos ou a opção local. Não coloque uma chave comercial no código ou no vídeo.
+A API OpenAI cobra por uso conforme [a tabela oficial](https://developers.openai.com/api/docs/pricing). Não suponha camada gratuita ou acesso incluído na assinatura do ChatGPT. O enunciado admite APIs com camada gratuita e exige execução sem custo para o professor; use OpenRouter com modelos gratuitos ou a opção local. Não coloque uma chave comercial no código ou nos documentos.
 
 ## Contrato da API
 
@@ -225,7 +225,7 @@ Com a API e o modelo reais ativos, use um banco novo dedicado à avaliação em 
 .\.venv\Scripts\python.exe -X utf8 scripts\avaliar.py --modelo nvidia/nemotron-3-super-120b-a12b:free
 ```
 
-O script adiciona T1–T8 e dez conversas variadas e grava `docs/resultado_modelo_real.json`. Não o execute novamente no mesmo banco de avaliação, pois existem reservas fictícias já preenchidas. Atualize o relatório com esse resultado. Execute também o roteiro manual de [docs/testes_praticos.md](docs/testes_praticos.md): o script não substitui a interação pelo Streamlit e pelo Swagger, nem a gravação com todos os integrantes.
+O script adiciona T1–T8 e dez conversas variadas e grava `docs/resultado_modelo_real.json`. Não o execute novamente no mesmo banco de avaliação, pois existem reservas fictícias já preenchidas. Atualize o relatório com esse resultado. Execute também o roteiro manual de [docs/testes_praticos.md](docs/testes_praticos.md): o script não substitui a verificação da interação pelo Streamlit e pelo Swagger.
 
 Contenção = conversas encerradas sem handoff / conversas com ao menos um turno concluído. Fallback = turnos em fallback / turnos concluídos. Handoff = sessões que tiveram handoff / conversas. Mensagens por conversa = turnos do usuário / conversas. Sessões ativas entram no denominador, mas não contam como contidas. Sessões vazias são excluídas. Erros 503 são contabilizados separadamente. Deletar uma sessão remove seus eventos, alterando as métricas históricas.
 
@@ -237,7 +237,7 @@ O reconhecimento por gatilhos e o sentimento léxico não cobrem todas as expres
 
 O frontend recupera todo o histórico a cada atualização. O banco cresce com sessões não apagadas; retenção e paginação ficam para evolução. A fila humana não possui ferramenta de resposta nem SLA. O direito ao esquecimento remove registros acessíveis pela aplicação, mas não representa apagamento forense de páginas SQLite, backups ou dados já enviados a provedores externos.
 
-**Pendente para entrega acadêmica:** gravar e publicar o vídeo de até cinco minutos com os integrantes, seguindo [docs/roteiro_video.md](docs/roteiro_video.md). Código, identificação do grupo, avaliação real e relatório estão disponíveis neste repositório.
+**Entrega:** código, identificação do grupo, avaliação real, relatório e evidências estão disponíveis neste repositório.
 
 ## Arquivos para avaliação
 
@@ -250,7 +250,6 @@ O frontend recupera todo o histórico a cada atualização. O banco cresce com s
 | [Dados da avaliação](docs/resultado_modelo_real.json) | T1–T8 e dez conversas, com histórico fictício e estado final |
 | [Testes práticos](docs/testes_praticos.md) | Resultados e roteiro para repetir os cenários |
 | `docs/prints/` | Chat, Swagger, seleção de modelos, slots, handoff e métricas |
-| [Roteiro do vídeo](docs/roteiro_video.md) | Ordem e duração da demonstração exigida |
 
 ## Uso de IA generativa
 
@@ -266,4 +265,4 @@ O código inicial, os testes automatizados, o prompt e a documentação foram pr
 - [Componentes de chat do Streamlit](https://docs.streamlit.io/develop/api-reference/chat/st.chat_input)
 - [Segurança no FastAPI](https://fastapi.tiangolo.com/tutorial/security/first-steps/)
 
-A validação prática atual está em [docs/testes_praticos.md](docs/testes_praticos.md). O relatório registra o que foi exercitado pela interface, pelo serviço HTTP e pelos testes automatizados, além das pendência de vídeo.
+A validação prática atual está em [docs/testes_praticos.md](docs/testes_praticos.md). O relatório registra o que foi exercitado pela interface, pelo serviço HTTP e pelos testes automatizados.

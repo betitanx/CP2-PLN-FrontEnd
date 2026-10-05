@@ -38,13 +38,13 @@ Evidências atuais: prints/teste_agendamento.jpg, prints/teste_handoff.jpg e pri
 - Fluxo com pelo menos dois dados validados, cinco FAQ, entrada e saída protegidas, oferta humana após duas falhas e resumo estruturado.
 - Prompt em cinco camadas, controle explícito da janela de memória e justificativa de regras versus LLM; FAQ sem RAG.
 - T1–T8 e dez conversas, métricas calculadas sobre logs, insight e melhoria concreta.
-- README, ficha do bot, relatório de aproximadamente uma página, código no GitHub e vídeo de até cinco minutos com todos os integrantes.
+- README, ficha do bot, relatório de aproximadamente uma página e código no GitHub com as evidências de avaliação.
 
-## Pendências de entrega
+## Limites da verificação
 
-Código, nomes/RMs, divisão prevista para revisão/apresentação, documentação e relatório real estão preparados. O repositório público é [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). Falta gravar/publicar o vídeo não listado, com os cinco integrantes e os oito testes na ordem do enunciado. O template exato da Aula 2 não foi fornecido para comparar formatação. Instalação em uma máquina limpa não foi repetida.
+Código, nomes/RMs, divisão prevista para revisão/apresentação, documentação e relatório real estão preparados. O repositório público é [betitanx/CP2-PLN-FrontEnd](https://github.com/betitanx/CP2-PLN-FrontEnd). O template exato da Aula 2 não foi fornecido para comparar formatação. Instalação em uma máquina limpa não foi repetida.
 
-Gemma permanece selecionável, mas teve indisponibilidade por HTTP 429 na amostra anterior. Para a gravação, Nemotron é a opção efetivamente validada; disponibilidade futura depende do provedor gratuito. Não houve troca para modelo pago, repetição automática ou exposição de chave na entrega.
+Gemma permanece selecionável, mas teve indisponibilidade por HTTP 429 na amostra anterior. Nemotron é a opção efetivamente validada; disponibilidade futura depende do provedor gratuito. Não houve troca para modelo pago, repetição automática ou exposição de chave na entrega.
 
 ## Roteiro para repetir T1–T8
 
@@ -61,7 +61,7 @@ Execute com dados fictícios, API e Streamlit em terminais separados, modelo con
 | T7 | Agendar → nome → “Estou frustrada e quero reclamar” | Sentimento negativo modifica comportamento; handoff ativo; resumo na fila humana |
 | T8 | Pelo Streamlit, agendar e informar nome/placa; copiar session_id; pelo /docs, POST /chat com a mesma sessão e mensagem 2026-10-15; no front clicar Atualizar | A API conserva nome/placa e recebe a data; a tela mostra o turno feito fora dela |
 
-Verifique também chave errada (401), sessão desconhecida (404), mensagem vazia (422), LLM parado em entrada fora das regras (503) e backend parado na tela (mensagem amigável). Não publique chaves no vídeo.
+Verifique também chave errada (401), sessão desconhecida (404), mensagem vazia (422), LLM parado em entrada fora das regras (503) e backend parado na tela (mensagem amigável). Não publique chaves nas evidências.
 
 
 ## Testes automatizados
